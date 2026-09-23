@@ -33,23 +33,32 @@ Analyse the ADC register range by keeping the LED at full brightness for the fir
 15. Run the program on the S32K144 board.
 
 ---
+##Program
+```
+#include"sdk_project_config.h"
+int main(void){
+	CLOCK_DRV_Init(&clockMan1_InitConfig0);
+	PINS_DRV_Init(NUM_OF_CONFIGURED_PINS0, g_pin_mux_InitConfigArr0);
+	ADC_Init(&adc_pal_1_instance, &adc_pal_1_config);
+	PWM_Init(&pwm_pal_1_instance, &pwm_pal_1_configs);
+	while(1){
+		ADC_StartGroupConversion(&adc_pal_1_instance,0U);
+		//to read the potentiometer's value(adc)
+		uint32_t adc=adc_pal_1_results0[0];
+		if(adc<=2048){
+			PWM_UpdateDuty(&pwm_pal_1_instance,0U,4095);
+		}
+		else{
+			PWM_UpdateDuty(&pwm_pal_1_instance,0U,0);
+		}
+	}
+	OSIF_TimeDelay(10);
+}
+
+```
+---
 ## OUTPUT
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<img width="1919" height="1199" alt="image" src="https://github.com/user-attachments/assets/e11b77a5-7de1-4113-b077-d9510360ac54" />
 
 ---
 ## Result
